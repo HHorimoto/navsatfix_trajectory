@@ -1,0 +1,7 @@
+<launch>
+  <arg name="bag_name" default="" />
+  <arg name="bag_path" default="$(find navsatfix_trajectory)/bags/$(arg bag_name).bag" />
+  <arg name="rate" default="1" />
+
+  <node name="playbag" pkg="rosbag" type="play" args="-r $(arg rate) --clock $(arg bag_path)" required="false" />
+</launch>
