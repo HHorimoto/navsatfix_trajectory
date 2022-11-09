@@ -1,7 +1,22 @@
 <launch>
-  <arg name="bag_name" default="" />
+  <arg name="bag_name" default="rosbag" />
   <arg name="bag_path" default="$(find navsatfix_trajectory)/bags/$(arg bag_name).bag" />
-  <arg name="rate" default="1" />
+  <arg name="rate" default="5" />
 
   <node name="playbag" pkg="rosbag" type="play" args="-r $(arg rate) --clock $(arg bag_path)" required="false" />
+
+  <arg name="navsatfix_topic" default="/fix" />
+  <arg name="points_size" default="1" />
+  <arg name="save_name" default="result" />
+  <arg name="save_path" default="$(find navsatfix_trajectory)/result/$(arg save_name).png" />
+  <arg name="available_statuses" default="[0, 1, 2]" />
+  <arg name="colors" default="[g, b, r]" />
+
+  <node pkg="navsatfix_trajectory" name="trajectory" type="trajectory.py" output="screen">
+    <param name="navsatfix_topic" value="$(arg navsatfix_topic)" />
+    <param name="points_size" value="$(arg points_size)" />
+    <param name="save_path" value="$(arg save_path)" />
+    <rosparam param="available_statuses" subst_value="True">$(arg available_statuses)</rosparam>
+    <rosparam param="colors" subst_value="True">$(arg colors)</rosparam>
+  </node>
 </launch>

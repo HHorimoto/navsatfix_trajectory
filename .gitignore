@@ -11,3 +11,7 @@
 # rosbag
 /bags/*
 !/bags/.gitkeep
+
+# result
+/result/*
+!/result/.gitkeep
