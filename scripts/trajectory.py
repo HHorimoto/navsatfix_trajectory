@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
 import os, sys
@@ -20,13 +20,12 @@ class NavsatfixTrajectory(object):
         self.count = 0
     
     def spin(self):
-
         if not self.flag:
             plt.title("gnss trajectory log points with line")
             plt.xlabel("latitude")
             plt.ylabel("Longitude")
-            plt.xticks([])
-            plt.yticks([])
+            plt.gca().get_xaxis().get_major_formatter().set_useOffset(False)
+            plt.gca().get_yaxis().get_major_formatter().set_useOffset(False)
             for i in range(len(self.colors)):
                 plt.plot([], [], color=self.colors[i], label=self.statuses[i])
             plt.legend()
