@@ -2,6 +2,9 @@
 
 **This package shows trajectory by a NavSatFix topic**
 
+Here is one of the example.
+![Result Image](./media/result.png)
+
 ## Requirement
 + Ubuntu 18.04
 + ROS (Melodic)
@@ -28,7 +31,7 @@ rosbag.bag
 ```
 
 
-2. Launch `navsatfix_trajectory` launch file. I belive that you need to specify your bag name with comand line.
+2. Launch `navsatfix_trajectory` launch file. I belive that you need to specify your bag name with comand line. Red points is fixed data and bule points is not fixed data.
 
 ```shell
 $ roslaunch navsatfix_trajectory navsatfix_trajectory.launch bag_name:=your_bag_name
