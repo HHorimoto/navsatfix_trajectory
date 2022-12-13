@@ -4,13 +4,29 @@
 import os, sys
 import rospy
 from sensor_msgs.msg import NavSatFix
-from sensor_message_getter import SensorMessageGetter
 import matplotlib.pyplot as plt
-import random
+
+class MessageGetter(object):
+    def __init__(self, topic, topic_type, timeout=1.0):
+        self.topic = topic
+        self.topic_type = topic_type
+        self.timeout = timeout
+    
+    def get_message(self):
+        result = None
+        try:
+            result = rospy.wait_for_message(self.topic, self.topic_type, self.timeout)
+        except rospy.exceptions.ROSException as err:
+            rospy.logerr("%s is not found", self.topic)
+            rospy.logerr(err)
+        else:
+            rospy.loginfo("got %s correctly", self.topic)
+        finally:
+            return result
 
 class NavsatfixTrajectory(object):
-    def __init__(self, topic, points_size, available_statuses, save_path, colors, end_th=10, msg_wait=1.0):
-        self.msg = SensorMessageGetter(topic, NavSatFix, msg_wait)
+    def __init__(self, topic, points_size, available_statuses, save_path, colors, end_th=10, timeout=1.0):
+        self.msg = MessageGetter(topic, NavSatFix, timeout)
         self.points_size = points_size
         self.statuses = available_statuses
         self.save_path = save_path
@@ -30,7 +46,7 @@ class NavsatfixTrajectory(object):
                 plt.plot([], [], color=self.colors[i], label=self.statuses[i])
             plt.legend()
             self.flag = 1
-        get_msg = self.msg.get_msg()
+        get_msg = self.msg.get_message()
         if get_msg is not None:
             self.count = 0
             status = get_msg.status.status
